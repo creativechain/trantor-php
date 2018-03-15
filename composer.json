@@ -1,0 +1,7 @@
+{
+    "name": "creativechain/trantor",
+    "description": "Creativechain Trantor Lib for PHP",
+    "type": "library",
+    "license": "MIT",
+    "require": {}
+}
