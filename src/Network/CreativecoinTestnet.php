@@ -4,6 +4,7 @@ namespace Trantor\Network;
 
 use BitWasp\Bitcoin\Network\Network;
 use BitWasp\Bitcoin\Script\ScriptType;
+use Trantor\Constants;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +12,7 @@ use BitWasp\Bitcoin\Script\ScriptType;
  * Date: 16/03/18
  * Time: 19:49
  */
-class CreativecoinTestnet extends Network
+class CreativecoinTestnet extends BaseNetwork
 {
     /**
      * {@inheritdoc}
@@ -60,4 +61,11 @@ class CreativecoinTestnet extends Network
      * @see Network::$p2pMagic
      */
     protected $p2pMagic = "cacacaca";
+
+    /**
+     * @var int
+     */
+    protected $magicByte = Constants::MAGIC_BYTE_TESTNET;
+
+
 }

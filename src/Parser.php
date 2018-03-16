@@ -3,10 +3,12 @@
 namespace Trantor;
 use BitWasp\Bitcoin\Block\BlockFactory;
 use BitWasp\Bitcoin\Block\BlockInterface;
+use BitWasp\Bitcoin\Exceptions\InvalidNetworkParameter;
 use BitWasp\Bitcoin\Script\Opcodes;
 use BitWasp\Bitcoin\Transaction\TransactionFactory;
 use BitWasp\Bitcoin\Transaction\TransactionInterface;
 use BitWasp\Bitcoin\Transaction\TransactionOutputInterface;
+use BitWasp\Buffertools\Buffer;
 use Trantor\Data\Author;
 use Trantor\Data\Comment;
 use Trantor\Data\ContentData;
@@ -14,6 +16,8 @@ use Trantor\Data\Like;
 use Trantor\Data\MediaData;
 use Trantor\Data\Payment;
 use Trantor\Data\Unlike;
+use Trantor\Network\BaseNetwork;
+use Trantor\Util\Bytes;
 
 /**
  * Created by PhpStorm.
@@ -24,11 +28,29 @@ use Trantor\Data\Unlike;
 class Parser
 {
 
+    /** @var  BaseNetwork */
+    private static $net;
+
+    /**
+     * @param BaseNetwork $net
+     */
+    public static function setNetwork($net)
+    {
+        self::$net = $net;
+    }
+
+    private static function checkNetwork() {
+        if (self::$net == null || get_class(self::$net) != get_class(BaseNetwork::class)) {
+            throw new InvalidNetworkParameter('Network is not valid.');
+        }
+    }
+
     /**
      * @param TransactionInterface $tx
      * @return null|Author|Comment|Like|MediaData|Payment|Unlike
      */
     public static function getDataFromTx($tx) {
+        self::checkNetwork();
         $outs = $tx->getOutputs();
 
         /** @var TransactionOutputInterface $out */
@@ -36,7 +58,11 @@ class Parser
             $opcodes = $out->getScript()->getOpcodes();
             if ($opcodes->offsetExists(Opcodes::OP_RETURN)) {
                 $hexData = $out->getScript()->getHex();
-                return ContentData::deserializeData($hexData);
+                $buff = Bytes::hex2ByteArray($hexData);
+                if ($buff[0] == self::$net->getMagicByte()) {
+                    $hexData = substr($hexData, 2, strlen($hexData));
+                    return ContentData::deserializeData($hexData);
+                }
             }
         }
 
@@ -48,6 +74,7 @@ class Parser
      * @return null|Author|Comment|Like|MediaData|Payment|Unlike
      */
     public static function getDataFromRawTx($hexTx) {
+        self::checkNetwork();
         return self::getDataFromTx(TransactionFactory::fromHex($hexTx));
     }
 
@@ -56,6 +83,7 @@ class Parser
      * @return array
      */
     public static function getDataFromBlock($block) {
+        self::checkNetwork();
         $txs = $block->getTransactions();
 
         $datas = array();
@@ -76,6 +104,7 @@ class Parser
      * @return array
      */
     public static function getDataFromRawBlock($hexBlock) {
+        self::checkNetwork();
         $block = BlockFactory::fromHex($hexBlock);
         return self::getDataFromBlock($block);
     }

@@ -10,7 +10,7 @@ namespace Trantor;
 class Constants {
 
     const VERSION = 0x0100;
-    const MAGIC_BYTE = 0xB8;
+    const MAGIC_BYTE = 0x51;
     const MAGIC_BYTE_TESTNET = 0xB8;
     
     const TYPE_EMPTY = 0x00;
