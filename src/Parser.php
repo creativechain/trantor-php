@@ -1,6 +1,7 @@
 <?php
 
 namespace Trantor;
+use BitWasp\Bitcoin\Bitcoin;
 use BitWasp\Bitcoin\Block\BlockFactory;
 use BitWasp\Bitcoin\Block\BlockInterface;
 use BitWasp\Bitcoin\Exceptions\InvalidNetworkParameter;
@@ -8,7 +9,6 @@ use BitWasp\Bitcoin\Script\Opcodes;
 use BitWasp\Bitcoin\Transaction\TransactionFactory;
 use BitWasp\Bitcoin\Transaction\TransactionInterface;
 use BitWasp\Bitcoin\Transaction\TransactionOutputInterface;
-use BitWasp\Buffertools\Buffer;
 use Trantor\Data\Author;
 use Trantor\Data\Comment;
 use Trantor\Data\ContentData;
@@ -37,6 +37,7 @@ class Parser
     public static function setNetwork($net)
     {
         self::$net = $net;
+        Bitcoin::setNetwork($net);
     }
 
     private static function checkNetwork() {
