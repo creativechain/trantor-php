@@ -67,7 +67,7 @@ class Index extends ContentData
         $this->txIds = array();
 
         for ($x = 0; $x < $varInt['value']; $x++) {
-            $tx = array_slice($offset, $offset+32);
+            $tx = array_slice($offset, 32);
             $offset += 32;
             $this->txIds[] = Bytes::byteArray2Hex($tx);
         }

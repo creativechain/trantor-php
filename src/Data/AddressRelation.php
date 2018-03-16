@@ -54,11 +54,11 @@ class AddressRelation extends ContentData
     protected function deserialize($data, $offset)
     {
         $offset = parent::deserialize($data, $offset);
-        $followerAddress = array_slice($data, $offset, $offset + 20);
+        $followerAddress = array_slice($data, $offset, 20);
         $this->followerAddress = ContentData::encodeAddress($followerAddress);
         $offset += 20;
 
-        $followedAddress = array_slice($data, $offset, $offset + 20);
+        $followedAddress = array_slice($data, $offset, 20);
         $this->followedAddress = ContentData::encodeAddress($followedAddress);
         $offset += 20;
 

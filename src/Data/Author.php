@@ -10,7 +10,6 @@ namespace Trantor\Data;
 
 
 use Trantor\Constants;
-use Trantor\Util\Base58;
 
 class Author extends ContentData
 {
@@ -84,7 +83,7 @@ class Author extends ContentData
     public function deserialize($data, $offset)
     {
         $offset = parent::deserialize($data, $offset);
-        $address = array_slice($data, $offset, $offset + 20);
+        $address = array_slice($data, $offset, 20);
         $this->address = self::encodeAddress($address);
         $offset += 20;
 

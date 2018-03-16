@@ -58,11 +58,11 @@ class Payment extends ContentData
     protected function deserialize($data, $offset)
     {
         $offset = parent::deserialize($data, $offset);
-        $author = array_slice($data, $offset, $offset + 20);
+        $author = array_slice($data, $offset, 20);
         $this->author = ContentData::encodeAddress($author);
         $offset += 20;
 
-        $contentAddress = array_slice($data, $offset, $offset + 20);
+        $contentAddress = array_slice($data, $offset, 20);
         $this->contentAddress =  ContentData::encodeAddress($contentAddress);
         $offset += 20;
 
