@@ -223,7 +223,6 @@ abstract class ContentData {
             unlink($file);
             unlink($outFile);
 
-            print_r('Decompressed: ' . $out . PHP_EOL);
             $data = Bytes::hex2ByteArray($out);
         }
 
@@ -267,10 +266,8 @@ abstract class ContentData {
         }
 
         if ($contentData) {
-            print_r('Deserializing ' . get_class($contentData) . PHP_EOL);
             $contentData->mustBeCompressed = $compressed;
             $contentData->deserialize($data, 0);
-            print_r('Deserialized ' . get_class($contentData));
             return $contentData;
         } else {
             print_r('Not data deserialized! Type:' . $type . PHP_EOL);
