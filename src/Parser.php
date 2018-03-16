@@ -41,7 +41,7 @@ class Parser
     }
 
     private static function checkNetwork() {
-        if (self::$net == null || get_class(self::$net) != get_class(BaseNetwork::class)) {
+        if (self::$net == null || !(self::$net instanceof BaseNetwork)) {
             throw new InvalidNetworkParameter('Network is not valid.');
         }
     }
@@ -56,12 +56,17 @@ class Parser
 
         /** @var TransactionOutputInterface $out */
         foreach ($outs as $out) {
-            $opcodes = $out->getScript()->getOpcodes();
-            if ($opcodes->offsetExists(Opcodes::OP_RETURN)) {
-                $hexData = $out->getScript()->getHex();
+
+            if ($out->getValue() == 0) {
+                $asm = $out->getScript()->getScriptParser()->getHumanReadable();
+                $asm = str_replace('OP_RETURN', '', $asm);
+                $asm = trim($asm);
+                $hexData = $asm;
                 $buff = Bytes::hex2ByteArray($hexData);
+                //print_r($buff);
                 if ($buff[0] == self::$net->getMagicByte()) {
                     $hexData = substr($hexData, 2, strlen($hexData));
+
                     return ContentData::deserializeData($hexData);
                 }
             }

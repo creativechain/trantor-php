@@ -9,6 +9,7 @@
 namespace Trantor\Data;
 
 
+use SebastianBergmann\CodeCoverage\Report\PHP;
 use Trantor\Constants;
 
 class Author extends ContentData
@@ -108,8 +109,8 @@ class Author extends ContentData
         $offset += $avatar['offset'];
 
         $tags = self::deserializeText($data, $offset);
-        $this->tags = json_decode($tags);
-        $offset += $nick['offset'];
+        $this->tags = json_decode($tags['text']);
+        $offset += $tags['offset'];
 
         return $offset;
     }

@@ -204,12 +204,12 @@ abstract class ContentData {
         }
 
         $compressed = Bytes::readInt($data, 0);
+        $data = array_slice($data, 1, count($data));
         if ($compressed) {
             if (!file_exists('lzma')) {
                 mkdir('lzma');
             }
 
-            $data = array_slice($data, 1, count($data));
             $bin = Bytes::byteArray2Hex($data);
             $bin = hex2bin($bin);
 
@@ -270,7 +270,7 @@ abstract class ContentData {
             $contentData->deserialize($data, 0);
             return $contentData;
         } else {
-            print_r('Not data deserialized! Type:' . $type . PHP_EOL);
+            print_r('Not data deserialized! Type: ' . $type . PHP_EOL);
         }
 
         return null;
