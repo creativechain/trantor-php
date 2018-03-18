@@ -52,12 +52,6 @@ class CreativecoinTestnet extends BaseNetwork
 
     /**
      * {@inheritdoc}
-     * @see Network::$signedMessagePrefix
-     */
-    protected $signedMessagePrefix = "Creativecoin Signed Message";
-
-    /**
-     * {@inheritdoc}
      * @see Network::$p2pMagic
      */
     protected $p2pMagic = "cacacaca";
