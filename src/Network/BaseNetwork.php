@@ -18,7 +18,7 @@ class BaseNetwork extends Network
      * {@inheritdoc}
      * @see Network::$signedMessagePrefix
      */
-    protected $signedMessagePrefix = "Creativecoin Signed Message\n";
+    protected $signedMessagePrefix = "Creativecoin Signed Message:\n";
 
     /**
      * @var int
