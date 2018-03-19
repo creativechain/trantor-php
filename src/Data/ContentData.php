@@ -216,7 +216,7 @@ abstract class ContentData {
             $outFile = 'lzma/' . uniqid('temp');
             $file = $outFile . '.xz';
             file_put_contents($file, $bin, LOCK_EX);
-            $archive = new SevenZip($file, array('binary' => '/usr/bin/7za'));
+            $archive = new SevenZip($file);
             $archive->extractTo('lzma');
             $decompressed = file_get_contents($outFile);
             $out = bin2hex($decompressed);
